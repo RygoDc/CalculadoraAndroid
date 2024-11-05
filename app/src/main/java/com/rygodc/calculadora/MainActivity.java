@@ -4,27 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView pantalla;
+    private StringBuilder expresion = new StringBuilder();
+    private boolean esDecimal = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         Button button0 = findViewById(R.id.button0);
         Button button1 = findViewById(R.id.button1);
@@ -42,11 +35,13 @@ public class MainActivity extends AppCompatActivity {
         Button buttonResta = findViewById(R.id.buttonResta);
         Button buttonDividir = findViewById(R.id.buttonDividir);
         Button buttonMultiplicar = findViewById(R.id.buttonMultiplicar);
-        Button buttonCalcular = findViewById(R.id.buttonCacular);
+        Button buttonCalcular = findViewById(R.id.buttonCalcular);
         Button buttonPorcentaje = findViewById(R.id.buttonPorcentaje);
         Button buttonCE = findViewById(R.id.buttonCE);
         Button buttonC = findViewById(R.id.buttonC);
         Button buttonDelete = findViewById(R.id.buttonDelete);
+
+        pantalla = findViewById(R.id.pantalla);
 
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(button0);
@@ -71,172 +66,166 @@ public class MainActivity extends AppCompatActivity {
         buttons.add(buttonC);
         buttons.add(buttonDelete);
 
-
-        TextView pantalla = findViewById(R.id.pantalla);
-        pantalla.setText("");
-
-        for (Button button : buttons){
+        for (Button button : buttons) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String textoPantalla = (String) pantalla.getText();
-                    if (button.getId() == R.id.button0) {
-                        textoPantalla += "0";
-                        pantalla.setText(textoPantalla);
+                    if (view.getId() == R.id.button0) {
+                        agregarNumero("0");
+                    } else if (view.getId() == R.id.button1) {
+                        agregarNumero("1");
+                    } else if (view.getId() == R.id.button2) {
+                        agregarNumero("2");
+                    } else if (view.getId() == R.id.button3) {
+                        agregarNumero("3");
+                    } else if (view.getId() == R.id.button4) {
+                        agregarNumero("4");
+                    } else if (view.getId() == R.id.button5) {
+                        agregarNumero("5");
+                    } else if (view.getId() == R.id.button6) {
+                        agregarNumero("6");
+                    } else if (view.getId() == R.id.button7) {
+                        agregarNumero("7");
+                    } else if (view.getId() == R.id.button8) {
+                        agregarNumero("8");
+                    } else if (view.getId() == R.id.button9) {
+                        agregarNumero("9");
+                    } else if (view.getId() == R.id.buttonPunto) {
+                        if (!esDecimal) {
+                            agregarNumero(".");
+                            esDecimal = true;
+                        }
+                    } else if (view.getId() == R.id.buttonSuma) {
+                        agregarOperador("+");
+                    } else if (view.getId() == R.id.buttonResta) {
+                        agregarOperador("-");
+                    } else if (view.getId() == R.id.buttonDividir) {
+                        agregarOperador("/");
+                    } else if (view.getId() == R.id.buttonMultiplicar) {
+                        agregarOperador("*");
+                    } else if (view.getId() == R.id.buttonCalcular) {
+                        calcular();
+                    } else if (view.getId() == R.id.buttonC || view.getId() == R.id.buttonCE) {
+                        limpiarCalculadora();
+                    } else if (view.getId() == R.id.buttonPorcentaje) {
+                        calcularPorcentaje();
+                    } else if (view.getId() == R.id.buttonMasMenos) {
+                        cambiarSigno();
+                    } else if (view.getId() == R.id.buttonDelete) {
+                        eliminarUltimoDigito();
                     }
-                    if (button.getId() == R.id.button1) {
-                        textoPantalla += "1";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button2) {
-                        textoPantalla += "2";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button3) {
-                        textoPantalla += "3";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button4) {
-                        textoPantalla += "4";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button5) {
-                        textoPantalla += "5";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button6) {
-                        textoPantalla += "6";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button7) {
-                        textoPantalla += "7";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button8) {
-                        textoPantalla += "8";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.button9) {
-                        textoPantalla += "9";
-                        pantalla.setText(textoPantalla);
-                    }
-//                    if (button.getId() == R.id.buttonMasMenos) {
-//                        textoPantalla += "-";
-//                        pantalla.setText(textoPantalla);
-//                    }
-//                    if (button.getId() == R.id.buttonPunto) {
-//                        textoPantalla += ".";
-//                        pantalla.setText(textoPantalla);
-//                    }
-                    if (button.getId() == R.id.buttonSuma) {
-                        textoPantalla += "+";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.buttonResta) {
-                        textoPantalla += "-";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.buttonDividir) {
-                        textoPantalla += "/";
-                        pantalla.setText(textoPantalla);
-                    }
-                    if (button.getId() == R.id.buttonMultiplicar) {
-                        textoPantalla += "*";
-                        pantalla.setText(textoPantalla);
-                    }
-//                    if (buttonPorcentaje.getId() == R.id.buttonPorcentaje) {
-//                        textoPantalla += "%";
-//                        pantalla.setText(textoPantalla);
-//                    }
-//                    if (buttonCE.getId() == R.id.buttonCE) {
-//                        textoPantalla = "";
-//                        pantalla.setText(textoPantalla);
-//                    }
-//                    if (buttonC.getId() == R.id.buttonC) {
-//                        textoPantalla = "";
-//                        pantalla.setText(textoPantalla);
-//                    }
-//                    if (buttonDelete.getId() == R.id.buttonDelete) {
-//                        String currentText = (String) pantalla.getText();
-//                        if (!currentText.isEmpty()) {
-//                            pantalla.setText(currentText.substring(0, currentText.length() - 1));
-//                        }
-//                    }
+                    pantalla.setText(expresion.toString().isEmpty() ? "0" : expresion.toString());
                 }
             });
         }
     }
+
+    private void agregarNumero(String digito) {
+        if (expresion.length() == 0 && digito.equals("0")) {
+            return;  // No permitir múltiples ceros iniciales
+        }
+        expresion.append(digito);
+    }
+
+    private void agregarOperador(String op) {
+        if (!expresion.toString().isEmpty() && Character.isDigit(expresion.charAt(expresion.length() - 1))) {
+            expresion.append(op);
+            esDecimal = false;
+        }
+    }
+
+    private void calcular() {
+        try {
+            double resultado = evaluarExpresion(expresion.toString());
+            pantalla.setText((resultado % 1 == 0) ? String.valueOf((int) resultado) : String.valueOf(resultado));
+            expresion.setLength(0);
+            expresion.append(pantalla.getText().toString());
+            esDecimal = expresion.toString().contains(".");
+        } catch (Exception e) {
+            pantalla.setText("Error");
+            expresion.setLength(0);
+        }
+    }
+
+    private void limpiarCalculadora() {
+        expresion.setLength(0);
+        pantalla.setText("0");
+        esDecimal = false;
+    }
+
+    private void eliminarUltimoDigito() {
+        if (expresion.length() > 0) {
+            expresion.deleteCharAt(expresion.length() - 1);
+            esDecimal = expresion.toString().contains(".");
+        }
+    }
+
+    private void cambiarSigno() {
+        if (!expresion.toString().isEmpty()) {
+            double num = evaluarExpresion(expresion.toString());
+            num = -num;
+            expresion.setLength(0);
+            expresion.append(num);
+            pantalla.setText(expresion.toString());
+        }
+    }
+
+    private void calcularPorcentaje() {
+        if (!expresion.toString().isEmpty()) {
+            double num = evaluarExpresion(expresion.toString()) / 100;
+            expresion.setLength(0);
+            expresion.append(num);
+            pantalla.setText(expresion.toString());
+        }
+    }
+
+    private double evaluarExpresion(String expr) {
+        ArrayList<Double> valores = new ArrayList<>();
+        ArrayList<Character> operadores = new ArrayList<>();
+
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+
+            if (Character.isDigit(c)) {
+                StringBuilder sb = new StringBuilder();
+
+                while (i < expr.length() && (Character.isDigit(expr.charAt(i)) || expr.charAt(i) == '.')) {
+                    sb.append(expr.charAt(i++));
+                }
+                i--;
+                valores.add(Double.parseDouble(sb.toString()));
+            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+                while (!operadores.isEmpty() && prioridad(operadores.get(operadores.size() - 1)) >= prioridad(c)) {
+                    double b = valores.remove(valores.size() - 1);
+                    double a = valores.remove(valores.size() - 1);
+                    valores.add(operar(operadores.remove(operadores.size() - 1), a, b));
+                }
+                operadores.add(c);
+            }
+        }
+
+        while (!operadores.isEmpty()) {
+            double b = valores.remove(valores.size() - 1);
+            double a = valores.remove(valores.size() - 1);
+            valores.add(operar(operadores.remove(operadores.size() - 1), a, b));
+        }
+
+        return valores.get(0);
+    }
+
+    private int prioridad(char operador) {
+        if (operador == '+' || operador == '-') return 1;
+        if (operador == '*' || operador == '/') return 2;
+        return 0;
+    }
+
+    private double operar(char operador, double a, double b) {
+        switch (operador) {
+            case '+': return a + b;
+            case '-': return a - b;
+            case '*': return a * b;
+            case '/': return a / b;
+            default: return 0;
+        }
+    }
 }
-
-
-//        button0.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantalla = (String) pantalla.getText();
-//                textoPantalla += "0";
-//                pantalla.setText(textoPantalla);
-//            }
-//        });
-//        button1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantalla = (String) pantalla.getText();
-//                textoPantalla += "1";
-//                pantalla.setText(textoPantalla);
-//            }
-//        });
-//        button2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantalla = (String) pantalla.getText();
-//                textoPantalla += "2";
-//                pantalla.setText(textoPantalla);
-//            }
-//        });
-//        buttonSuma.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantalla = (String) pantalla.getText();
-//                textoPantalla += "+";
-//                pantalla.setText(textoPantalla);
-//            }
-//        });
-//
-//        buttonResta.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantalla = (String) pantalla.getText();
-//                textoPantalla += "-";
-//                pantalla.setText(textoPantalla);
-//            }
-//        });
-//
-//        buttonCalcular.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String textoPantallaAux = (String) pantalla.getText().toString();
-//                if(textoPantallaAux.contains("+")) {
-//                    String[] partes = textoPantallaAux.split("\\+");
-//                    if (partes.length == 2) {
-//                        try {
-//                            double num1 = Double.parseDouble(partes[0].trim());
-//                            double num2 = Double.parseDouble(partes[1].trim());
-//                            double result = num1 + num2;
-//                            // Do something with the result, e.g., display it in another TextView
-//                            //textViewResult.setText(String.valueOf(result));
-//                        } catch (NumberFormatException e) {
-//                            // Handle the case where the input is not valid numbers
-//                            //Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        // Handle the case where there is no "+" symbol or multiple "+" symbols
-//                    }
-//                }
-//                if(textoPantallaAux.contains("-")) {
-//                    String[] partes = textoPantallaAux.split("\\-");
-//                    int resultado = 0;
-//                    for (String parte : partes) {
-//                        resultado -= Integer.parseInt(parte);
-//                    }
-//                    pantalla.setText(String.valueOf(resultado));
-//                }
