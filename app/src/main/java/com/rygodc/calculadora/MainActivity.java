@@ -10,7 +10,7 @@ import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView pantalla;
+    private TextView pantalla, pantallaAux;
     private StringBuilder expresion = new StringBuilder();
     private boolean esDecimal = false;
 
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonDelete = findViewById(R.id.buttonDelete);
 
         pantalla = findViewById(R.id.pantalla);
+        pantallaAux = findViewById(R.id.pantallaAux);
 
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(button0);
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void agregarOperador(String op) {
         if (!expresion.toString().isEmpty() && Character.isDigit(expresion.charAt(expresion.length() - 1))) {
+            pantallaAux.setText(pantalla.getText().toString());
             expresion.append(op);
             esDecimal = false;
         }
@@ -136,8 +138,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void calcular() {
         try {
+            pantallaAux.setText(expresion.toString());
+
             double resultado = evaluarExpresion(expresion.toString());
             pantalla.setText((resultado % 1 == 0) ? String.valueOf((int) resultado) : String.valueOf(resultado));
+
             expresion.setLength(0);
             expresion.append(pantalla.getText().toString());
             esDecimal = expresion.toString().contains(".");

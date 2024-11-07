@@ -7,6 +7,25 @@
         <item name="colorSecondary">@color/azulon</item>
 
     </style>
+    <style name="BotonNumeros">
+        <item name="android:backgroundTint">@color/cafe_numeros</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="BotonOperadores">
+        <item name="android:backgroundTint">@color/cafe_operadores</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="BotonCalcular">
+        <item name="android:backgroundTint">@color/cafe_calcular</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="BotonEspecial">
+        <item name="android:backgroundTint">@color/cafe_especial</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
 
     <style name="Theme.Calculadora" parent="Base.Theme.Calculadora" />
 </resources>

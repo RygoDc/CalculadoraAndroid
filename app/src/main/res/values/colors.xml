@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#66FFFFFFFF</color>
     <color name="azulon">#14213d</color>
-    <color name="amarillo">#fca311</color>
+    <color name="amarillo">#66fca311</color>
+    <color name="cafe_numeros">#66A0522D</color>
+    <color name="cafe_operadores">#668B4513</color>
+    <color name="cafe_calcular">#66D2691E</color>
+    <color name="cafe_especial">#66654321</color>
+
 
 </resources>
