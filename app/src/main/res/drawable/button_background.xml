@@ -4,17 +4,17 @@
     <!-- Estado cuando el botón está presionado -->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="#D1D1D1" /> <!-- Color de fondo al presionar -->
+            <solid android:color="@color/azulon" /> <!-- Color de fondo al presionar -->
             <corners android:radius="8dp" /> <!-- Bordes redondeados -->
-            <stroke android:width="1dp" android:color="#A0A0A0" /> <!-- Borde oscuro -->
+            <stroke android:width="4dp" android:color="#A0A0A0" /> <!-- Borde oscuro -->
         </shape>
     </item>
     <!-- Estado normal del botón -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#F5F5F5" /> <!-- Color de fondo normal -->
+            <solid android:color="@color/amarillo" /> <!-- Color de fondo normal -->
             <corners android:radius="8dp" /> <!-- Bordes redondeados -->
-            <stroke android:width="1dp" android:color="#000000" /> <!-- Borde claro -->
+            <stroke android:width="4dp" android:color="#000000" /> <!-- Borde claro -->
         </shape>
     </item>
 </selector>

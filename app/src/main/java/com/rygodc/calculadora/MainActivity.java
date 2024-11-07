@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void agregarNumero(String digito) {
         if (expresion.length() == 0 && digito.equals("0")) {
-            return;  // No permitir múltiples ceros iniciales
+            return;
         }
         expresion.append(digito);
     }
