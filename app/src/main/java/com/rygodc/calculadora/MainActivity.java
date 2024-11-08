@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
@@ -239,7 +241,15 @@ public class MainActivity extends AppCompatActivity {
             case '+': return a + b;
             case '-': return a - b;
             case '*': return a * b;
-            case '/': return a / b;
+            case '/':
+                try {
+                    if (b == 0) {
+                        throw new ArithmeticException("La división por cero no está permitida.");
+                    }
+                    return a / b;
+                } catch (ArithmeticException e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
             default: return 0;
         }
     }
