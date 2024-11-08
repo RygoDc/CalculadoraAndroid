@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Button buttonCalcular = findViewById(R.id.buttonCalcular);
         Button buttonPorcentaje = findViewById(R.id.buttonPorcentaje);
         Button buttonCE = findViewById(R.id.buttonCE);
-        Button buttonC = findViewById(R.id.buttonC);
         Button buttonDelete = findViewById(R.id.buttonDelete);
 
         pantalla = findViewById(R.id.pantalla);
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         buttons.add(buttonCalcular);
         buttons.add(buttonPorcentaje);
         buttons.add(buttonCE);
-        buttons.add(buttonC);
         buttons.add(buttonDelete);
 
         for (Button button : buttons) {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         agregarOperador("*");
                     } else if (view.getId() == R.id.buttonCalcular) {
                         calcular();
-                    } else if (view.getId() == R.id.buttonC || view.getId() == R.id.buttonCE) {
+                    } else if (view.getId() == R.id.buttonCE) {
                         limpiarCalculadora();
                     } else if (view.getId() == R.id.buttonPorcentaje) {
                         calcularPorcentaje();
@@ -128,12 +128,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void agregarOperador(String op) {
-        if (!expresion.toString().isEmpty() && Character.isDigit(expresion.charAt(expresion.length() - 1))) {
-            pantallaAux.setText(pantalla.getText().toString());
-            expresion.append(op);
-            esDecimal = false;
+        if (expresion.toString().isEmpty() || expresion.toString().equals("0")) {
+            expresion.append("0");
+        }
+
+        if (!expresion.toString().isEmpty()) {
+            char ultimoCaracter = expresion.charAt(expresion.length() - 1);
+
+            if (Character.isDigit(ultimoCaracter) || ultimoCaracter == '-') {
+                pantallaAux.setText(pantalla.getText().toString());
+                expresion.append(op);
+                esDecimal = false;
+            }
         }
     }
+
 
     private void calcular() {
         try {
@@ -166,13 +175,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void cambiarSigno() {
         if (!expresion.toString().isEmpty()) {
-            double num = evaluarExpresion(expresion.toString());
-            num = -num;
-            expresion.setLength(0);
-            expresion.append(num);
+            if (expresion.toString().startsWith("-")) {
+                expresion.deleteCharAt(0);
+            } else {
+                expresion.insert(0, "-");
+            }
             pantalla.setText(expresion.toString());
         }
     }
+
 
     private void calcularPorcentaje() {
         if (!expresion.toString().isEmpty()) {
@@ -190,10 +201,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
 
-            if (Character.isDigit(c)) {
+            if (Character.isDigit(c) || (c == '-' && (i == 0 || !Character.isDigit(expr.charAt(i - 1))))) {
                 StringBuilder sb = new StringBuilder();
 
-                while (i < expr.length() && (Character.isDigit(expr.charAt(i)) || expr.charAt(i) == '.')) {
+                while (i < expr.length() && (Character.isDigit(expr.charAt(i)) || expr.charAt(i) == '.' || (expr.charAt(i) == '-' && sb.length() == 0))) {
                     sb.append(expr.charAt(i++));
                 }
                 i--;
