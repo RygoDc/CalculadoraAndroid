@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/amarillo</item>
-        <item name="colorSecondary">@color/azulon</item>
+        <item name="colorSecondary">@color/celeste</item>
 
     </style>
     <style name="BotonNumeros">
