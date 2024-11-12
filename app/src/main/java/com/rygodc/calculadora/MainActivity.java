@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -151,7 +150,11 @@ public class MainActivity extends AppCompatActivity {
             pantallaAux.setText(expresion.toString());
 
             double resultado = evaluarExpresion(expresion.toString());
-            pantalla.setText((resultado % 1 == 0) ? String.valueOf((int) resultado) : String.valueOf(resultado));
+            if (resultado % 1 == 0) {
+                pantalla.setText(String.valueOf((int) resultado));
+            } else {
+                pantalla.setText(String.valueOf(resultado));
+            }
 
             expresion.setLength(0);
             expresion.append(pantalla.getText().toString());
